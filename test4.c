@@ -47,7 +47,7 @@ int prtimage()
 	t_vars vars;
 	t_data image;
 
-	int img_width = 1920;
+	int img_width = 1600;
 	int img_height = 1080;
 
 	vars.mlx = mlx_init();
