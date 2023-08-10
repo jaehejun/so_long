@@ -52,7 +52,8 @@ int prtimage()
 
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, img_width, img_height, "Hellow World!");
-	image.img = mlx_new_image(vars.mlx, img_width, img_height); // 이미지 객체 생성
+	//image.img = mlx_new_image(vars.mlx, img_width, img_height); // 이미지 객체 생성
+	image.img = mlx_xpm_file_to_image(vars.mlx, "./desert.xpm", &img_width, &img_height);
 	image.addr = mlx_get_data_addr(image.img, &image.bits_per_pixel, &image.line_length, &image.endian); // 이미지 주소 할당
 	for (int i = 0 ; i < img_height - 1 ; ++i)
 	{
@@ -65,7 +66,7 @@ int prtimage()
 			my_mlx_pixel_put(&image, j, i, color);
 		}	
 	}
-	mlx_put_image_to_window(vars.mlx, vars.win, image.img, 0, 0);
+	mlx_put_image_to_window(vars.mlx, vars.win, image.img, 64, 64);
 	mlx_key_hook(vars.win, key_hook, &vars); // esc key press event
 	mlx_hook(vars.win, 17, 0, exit_hook, 0); // close button press event
 	mlx_loop(vars.mlx);
