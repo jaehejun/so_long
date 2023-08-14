@@ -6,7 +6,7 @@
 #    By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 20:17:41 by jaehejun          #+#    #+#              #
-#    Updated: 2023/08/10 22:08:31 by jaehejun         ###   ########.fr        #
+#    Updated: 2023/08/14 21:31:55 by jaehejun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		= cc
 
 CFLAGS	= -Wall -Wextra -Werror
 
-SRC		= so_long.c get_next_line.c get_next_line_utils.c ft_split.c
+SRC		= test.c get_next_line.c get_next_line_utils.c ft_split.c
 OBJ		= $(SRC:.c=.o)
 
 all: $(NAME)
