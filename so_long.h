@@ -6,7 +6,7 @@
 /*   By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:18:11 by jaehejun          #+#    #+#             */
-/*   Updated: 2023/08/11 21:52:35 by jaehejun         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:02:09 by jaehejun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ char	**ft_split(char const *s, char c);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		close_win(int keycode, t_vars *vars);
+void	check_valid_route(char **map, int row, int column, int collectible, int escpae);
 
 #endif
