@@ -64,7 +64,7 @@ int prtimage()
 			double b = 1;
 			color = ((int)(255.999 * r) << 16) + ((int)(255.999 * g) << 8) + ((int)(255.999 * b));
 			my_mlx_pixel_put(&image, j, i, color);
-		}	
+		}
 	}
 	mlx_put_image_to_window(vars.mlx, vars.win, image.img, 64, 64);
 	mlx_key_hook(vars.win, key_hook, &vars); // esc key press event

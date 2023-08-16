@@ -6,187 +6,218 @@
 /*   By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:18:08 by jaehejun          #+#    #+#             */
-/*   Updated: 2023/08/15 23:29:16 by jaehejun         ###   ########.fr       */
+/*   Updated: 2023/08/16 22:26:20 by jaehejun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "./mlx/mlx.h"
 #include <stdio.h>
+#include <string.h>
 
-//int	main(void)
-//{
-//	void	*mlx;
-//	void	*img;
-//	char	*relative_path = "./desert.xpm";
-//	int		img_width;
-//	int		img_height;
-
-//	mlx = mlx_init();
-//	img = mlx_xpm_file_to_image(mlx, relative_path, &img_width, &img_height);
-//	mlx_put_image_to_window(mlx, mlx_new_window(mlx, img_width, img_height, "so_long"), img, 0, 0);
-//	mlx_loop(mlx);
-//}
-
-
-
-//int	render_next_frame(void *YourStruct);
-
-//int	main(void)
-//{
-//	void	*mlx;
-
-//	mlx = mlx_init();
-//	mlx_loop_hook(mlx, render_next_frame, YourStruct);
-//	mlx_loop(mlx);
-//}
-
-
-int	key_hook(int keycode, t_vars *vars)
+// 키보드 입력 처리
+int	key_hook(int keycode, t_game *game)
 {
-	(void)vars;
-	(void)keycode;
-	printf("Hello from key_hook!\n");
+	static int	movements;
+	int			actual_move;
+
+	actual_move = 0;
+	//up
+	if (keycode == 126)
+	{
+		 if (game->player.y > 0)
+		{
+			(game->player.y--);
+			printf("%d\n", game->player.y);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->background.img, game->player.x * 64, (game->player.y + 1) * 64);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->player.img, game->player.x * 64, game->player.y * 64);
+			actual_move++;
+		}
+	}
+	//down
+	if (keycode == 125)
+	{
+		if (game->player.y < 1024 / 64 - 1)
+		{
+			(game->player.y++);
+			printf("%d\n", game->player.y);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->background.img, game->player.x * 64, (game->player.y - 1) * 64);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->player.img, game->player.x * 64, game->player.y * 64);
+			actual_move++;
+		}
+	}
+	//right
+	if (keycode == 124)
+	{
+		if (game->player.x < 1920 / 64 - 1)
+		{
+			(game->player.x++);
+			printf("%d\n", game->player.x);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->background.img, (game->player.x - 1) * 64, game->player.y * 64);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->player.img, game->player.x * 64, game->player.y * 64);
+			actual_move++;
+		}
+	}
+	//left
+	if (keycode == 123)
+	{
+		if (game->player.x > 0)
+		{
+			(game->player.x--);
+			printf("%d\n", game->player.x);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->background.img, (game->player.x + 1) * 64, game->player.y * 64);
+			mlx_put_image_to_window(game->mlx, game->mlx_win, game->player.img, game->player.x * 64, game->player.y * 64);
+			actual_move++;
+		}
+	}
+	if (keycode == 53)
+		exit(0);
+	if (actual_move == 1)
+	{
+		movements++;
+		printf("Movements: %d\n", movements);
+	}
 	return (0);
 }
 
-//int	main(void)
-//{
-//	t_vars	vars;
 
-//	vars.mlx = mlx_init();
-//	vars.mlx_win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
-//	mlx_key_hook(vars.mlx_win, key_hook, &vars);
-//	mlx_loop(vars.mlx);
-//}
-
-
-
-
-
-
-
-
-//typedef struct	s_data {
-//	void	*img;
-//	void	*addr;
-//	int		bit_per_pixel;
-//	int		line_length;
-//	int		endian;
-//}	t_data;
-
-//void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-//{
-//	char	*dst;
-
-//	dst = data->addr + (y * data->line_length + x * (data->bit_per_pixel / 8));
-//	*(unsigned int*)dst = color;
-//}
-
-//int	main(void)
-//{
-//	void	*mlx;
-//	void	*mlx_win;
-//	t_data	img;
-
-//	mlx = mlx_init();
-//	mlx_win = mlx_new_window(mlx, 1920, 1080, "so_long");
-//	img.img = mlx_new_image(mlx, 1920, 1080);
-//	img.addr = mlx_get_data_addr(img.img, &img.bit_per_pixel, &img.line_length, &img.endian);
-//	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-//	my_mlx_pixel_put(&img, 10, 10, 0x0000FF00);
-//	my_mlx_pixel_put(&img, 15, 15, 0x000000FF);
-//	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-//	mlx_loop(mlx);
-//}
-
-
-int	main(void)
+int	main(int argc, char **argv)
 {
+
+	t_game	game;
+	t_map	map;
 	void	*mlx;
 	void	*mlx_win;
 	void	*tiles;
-	void	*player;
-	void	*sprite;
 	int		img_width;
 	int		img_height;
+	
+	int	x;
+	int	y;
+	x = 0;
+	y = 0;
+	
+	char	*line = strdup("");
+	char	*temp;
+	int	fd;
+	if (argc != 2)
+	{
+		printf("Error\n");
+		exit (1);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\n");
+		exit (1);
+	}
+	while (line != NULL)
+	{
+		line = get_next_line(fd);
+		temp = ft_strjoin(temp, line);
+	}
+	printf("TEMP : \n%s\n", temp);
+	map.map = ft_split(temp, '\n');
+	map.row = count_single(temp, '\n');
+	map.column = ft_strlen(map.map[0]);
 
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "so_long");
+	mlx_win = mlx_new_window(mlx, map.column * 64, map.row * 64, "so_long");
 	tiles = mlx_xpm_file_to_image(mlx, "./desert.xpm", &img_width, &img_height);
-	player = mlx_xpm_file_to_image(mlx, "./player.xpm", &img_width, &img_height);
-	sprite = mlx_xpm_file_to_image(mlx, "./sprite.xpm", &img_width, &img_height);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 448);
+	game.player.img = mlx_xpm_file_to_image(mlx, "./player.xpm", &img_width, &img_height);
+	game.mlx = mlx;
+	game.mlx_win = mlx_win;
+	game.player.x = 3;
+	game.player.y = 3;
+	game.background.img = tiles;
 	
-	mlx_put_image_to_window(mlx, mlx_win, player, 16, 448);
+	mlx_key_hook(mlx_win, key_hook, &game); // up array press event
+
+	while (y < map.row)
+	{
+		while (x < map.column)
+		{
+			mlx_put_image_to_window(mlx, mlx_win, tiles, x++ * 64, y * 64);
+		}
+		y++;
+		x = 0;
+	}
+	mlx_put_image_to_window(mlx, mlx_win, game.player.img, game.player.x * 64, game.player.y * 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 0, 448);
 	
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 256);
+
 	
-	mlx_put_image_to_window(mlx, mlx_win, sprite, 80, 256);
 	
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 448);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 448);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 448);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 448);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 448);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, sprite, 0, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, player.img, 0, 448);
 	
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 0);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 64);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 128);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 192);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 256);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 320);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 384);
-	mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 448);
+	
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 256);
+	
+	
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 64, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 128, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 192, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 256, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 320, 448);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 384, 448);
+	
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 0);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 64);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 128);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 192);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 256);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 320);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 384);
+	//mlx_put_image_to_window(mlx, mlx_win, tiles, 448, 448);
 	
 	
 	mlx_loop(mlx);
