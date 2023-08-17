@@ -6,7 +6,7 @@
 /*   By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:18:11 by jaehejun          #+#    #+#             */
-/*   Updated: 2023/08/16 21:48:13 by jaehejun         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:58:17 by jaehejun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,61 +20,41 @@
 # include <string.h>
 # include "./mlx/mlx.h"
 
-
-
 # define BUFFER_SIZE 100
 
-typedef struct	s_player
+typedef struct s_player
 {
 	int	x;
 	int	y;
-	void	*img;
 }	t_player;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	char	**map;
-	int		row;
 	int		column;
-	int		collectible;
+	int		row;
+	int		player;
 	int		escape;
+	int		collectible;
 }	t_map;
 
-typedef struct	s_wall
+typedef struct s_image
 {
+	void	*desert_img;
 	void	*wall_img;
-}	t_wall;
-
-typedef struct	s_collectible
-{
-	int	x;
-	int	y;
+	void	*player_img;
 	void	*collectible_img;
-}	t_collectible;
+	void	*escape_img;
+}	t_image;
 
 typedef struct s_game
 {
 	t_player	player;
-	t_player	background;
 	t_map		map;
-	t_wall		wall;
-	void	*mlx;
-	void	*mlx_win;
+	t_image		image;
+	void		*mlx;
+	void		*win;
 }	t_game;
-
-//typedef struct	s_data
-//{
-//	void	*img;
-//	void	*addr;
-//	int		bit_per_pixel;
-//	int		line_length;
-//	int		endian;
-//}	t_data;
-
-//typedef struct	s_vars{
-//	void	*mlx;
-//	void	*win;
-//}				t_vars;
 
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
@@ -94,6 +74,7 @@ char	**ft_split(char const *s, char c);
 
 //void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 //int		close_win(int keycode, t_vars *vars);
-void	check_valid_route(char **map, int row, int column, int collectible, int escpae);
+//void	check_valid_route(char **map, int row, int column,
+//							int collectible, int escpae);
 
 #endif
