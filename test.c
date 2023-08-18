@@ -6,7 +6,7 @@
 /*   By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:31:31 by jaehejun          #+#    #+#             */
-/*   Updated: 2023/08/15 19:53:51 by jaehejun         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:36:07 by jaehejun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	main(int argc, char *argv[])
 	int	row = 0;
 	int	column = 0;
 
-	int free_space = 0;
-	int wall = 0;
 	int collectible = 0;
 	int escape = 0;
 	int player = 0;
@@ -78,16 +76,14 @@ int	main(int argc, char *argv[])
 	{
 		while (map[row][column] != '\0')
 		{
-			if (map[row][column] == '0')
-				free_space++;
-			else if (map[row][column] == '1')
-				wall++;
-			else if (map[row][column] == 'C')
+			if (map[row][column] == 'C')
 				collectible++;
-			else if (map[row][column] == 'E')
-				escape++;
 			else if (map[row][column] == 'P')
-				player++;
+				;
+			else if (map[row][column] == 'E')
+				;
+			else if (map[row][column] == '1' || map[row][column] == '0')
+				;
 			else
 			{
 				write(1, "Invalid component exists!\n", 26);

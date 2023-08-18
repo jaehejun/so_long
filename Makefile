@@ -6,7 +6,7 @@
 #    By: jaehejun <jaehejun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 20:17:41 by jaehejun          #+#    #+#              #
-#    Updated: 2023/08/15 23:09:55 by jaehejun         ###   ########.fr        #
+#    Updated: 2023/08/18 16:52:34 by jaehejun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJ		= $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
+		make -C ./mlx
 		$(CC) $(CFLAGS) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 %.o: %.c	$(CC) $(CFLAGS) -Imlx -c $< -o $@
